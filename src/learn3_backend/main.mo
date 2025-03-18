@@ -4,14 +4,17 @@ import Nat "mo:base/Nat";
 import Bool "mo:base/Bool";
 import Buffer "mo:base/Buffer";
 import Array "mo:base/Array";
+import Float "mo:base/Float";
 
 actor {
   // Autentificação de usuário
   // Tipar o usuário
   type Usuario = {
+    id : Nat;
     email : Text;
     senha : Text;
     github : Text;
+    qtdIcp : Float;
   };
 
   //Buffer para guardar os usuários
@@ -24,6 +27,7 @@ actor {
       email = usuEmail;
       senha = usuSenha;
       github = usuGithub;
+      qtdIcp = 0;
     };
     //Adicionar usuários
     usuarios.add(usu);
@@ -36,6 +40,7 @@ actor {
       email = usuEmail;
       senha = usuSenha;
       github = "";
+      qtdIcp = 0;
     };
     //Comparar email e senha colocados com os usuários já cadastrados
     func localizaUsuario(x : Usuario, y : Usuario) : Bool {
@@ -54,12 +59,50 @@ actor {
     };
   };
 
-  //Retornar o usuário em array para ser serializável
+  public func localizaUsuario(email : Text) : async (?Usuario) {
+    let usuariosArray = Buffer.toArray(usuarios);
+
+    for (usu in usuariosArray.vals()) {
+      if (usu.email == email) {
+        return ?usu;
+      };
+    };
+
+    return null;
+  };
+
+  // Função para aumentar a quantidade de ICP
+  public func aumentarIcp(email : Text, maisIcp : Float) : async (Float) {
+    let usuarioOpt = await localizaUsuario(email);
+    switch (usuarioOpt) {
+      case (null) { return 0 };
+      case (?usuario) {
+        for (i in 0 usuarios.size() - 1) {
+          let usu = usuarios.get(i);
+          if (usu.email == email) {
+            let updatedUsuario : Usuario = {
+              id = usu.id;
+              email = usu.email;
+              senha = usu.senha;
+              github = usu.github;
+              qtdIcp = usu.qtdIcp + maisIcp;
+            };
+            
+            ignore usuarios.put(i, updatedUsuario);
+            return updatedUsuario.qtdIcp;
+          };
+        };
+        return 0;
+      };
+    };
+  };
+
+  // Retornar o usuário em array para ser serializável
   public func arrayUsuarios() : async [Usuario] {
     return Buffer.toArray(usuarios);
   };
 
-  //Tipar aulas
+  // Tipar aulas
   type Aula = {
     id : Nat;
     content : Content;
@@ -78,7 +121,7 @@ actor {
       id = 1;
       content : Content = {
         tipo = "conteúdo";
-        texto = "assunto1";
+        texto = "A Internet Computer (ICP) é uma blockchain Layer 1 de propósito geral, projetada para o desenvolvimento de DAPPs (Aplicações Descentralizadas) escaláveis, com alto desempenho e diversos diferenciais inovadores. Entre eles, destaca-se pela sua arquitetura com a possibilidade de hospedar DApps 100% on-chain, sem necessidade de servidores tradicionais, permitindo a hospedagem de frontend, backend e armazenamento de dados. Além disso, a ICP permite a integração direta com APIs Web2 e outras blockchains, como o Bitcoin, por meio do projeto Chain Fusion. Com essa abordagem, a ICP pode ser vista como uma solução completa para a Web3, proporcionando maior descentralização, interoperabilidade e eficiência no desenvolvimento de aplicações blockchain.";
         alternativas = null;
         respostaCerta = null;
         url = null;
@@ -88,7 +131,7 @@ actor {
       id = 2;
       content : Content = {
         tipo = "vídeo";
-        texto = "assunto2";
+        texto = "Assista um vídeo explicando com mais detalhes sobre o ICP";
         alternativas = null;
         respostaCerta = null;
         url = ?"www";
@@ -98,7 +141,7 @@ actor {
       id = 3;
       content : Content = {
         tipo = "pergunta";
-        texto = "assunto3";
+        texto = "";
         alternativas = ?[
           "A",
           "B",
