@@ -1,3 +1,4 @@
+import { learn3_backend } from '../../../../declarations/learn3_backend';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import LoginImg from '../../assets/bgLogin.svg';
 import '../Cadastro/style.css';
@@ -8,8 +9,17 @@ function index() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    alert("Entrando...");
-    navigate("/aulas");
+
+    const form = e.currentTarget;
+    const email = form.email.value;
+    const password = form.password.value;
+    
+    const response = learn3_backend.verificarUsuario(email, password);
+    if(response) {
+      navigate("/aulas");
+    } else {
+      alert("Email ou senha inválidos!");
+    }
   }
 
   return (

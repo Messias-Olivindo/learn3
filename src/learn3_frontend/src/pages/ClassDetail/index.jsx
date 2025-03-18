@@ -1,41 +1,43 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { learn3_backend } from "../../../../declarations/learn3_backend"; 
 
 import Robot from "../../assets/robot.png";
 
 import "./style.css";
 
-const aula = {
-  id: 1,
-  content: [
-    {
-      tipo: "aula",
-      texto: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus est perferendis impedit voluptas ab quis? Dolorum, dolorem obcaecati rem doloribus error explicabo corporis cum sed alias, quas ullam voluptatem officiis?"
-    },
-    {
-      tipo: "video",
-      texto: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus est perferendis impedit voluptas ab quis? Dolorum, dolorem obcaecati rem doloribus error explicabo corporis cum sed alias, quas ullam voluptatem officiis?",
-      url: 'https://www.youtube.com/watch?v=jG8ca9aV9qg&ab_channel=ICPHubBrasil'
-    },
-    {
-      tipo: "pergunta",
-      texto: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus est perferendis impedit voluptas ab quis? Dolorum, dolorem obcaecati rem doloribus error explicabo corporis cum sed alias, quas ullam voluptatem officiis?",
-      alternativas: [
-        'Alternativa 1',
-        'Alternativa 2',
-        'Alternativa 3',
-        'Alternativa 4'
-      ],
-      respostaCerta: 'Alternativa 2',
-    }
-  ]
-}
+// const aula = {
+//   id: 1,
+//   content: [
+//     {
+//       tipo: "aula",
+//       texto: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus est perferendis impedit voluptas ab quis? Dolorum, dolorem obcaecati rem doloribus error explicabo corporis cum sed alias, quas ullam voluptatem officiis?"
+//     },
+//     {
+//       tipo: "video",
+//       texto: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus est perferendis impedit voluptas ab quis? Dolorum, dolorem obcaecati rem doloribus error explicabo corporis cum sed alias, quas ullam voluptatem officiis?",
+//       url: 'https://www.youtube.com/watch?v=jG8ca9aV9qg&ab_channel=ICPHubBrasil'
+//     },
+//     {
+//       tipo: "pergunta",
+//       texto: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus est perferendis impedit voluptas ab quis? Dolorum, dolorem obcaecati rem doloribus error explicabo corporis cum sed alias, quas ullam voluptatem officiis?",
+//       alternativas: [
+//         'Alternativa 1',
+//         'Alternativa 2',
+//         'Alternativa 3',
+//         'Alternativa 4'
+//       ],
+//       respostaCerta: 'Alternativa 2',
+//     }
+//   ]
+// }
 
 export default function ClasseDetail() {
   const { id } = useParams();
   const [isLogged, setIsLogged] = useState(true);
   const [isFetching, setIsFetching] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [aula, setAula] = useState([]);
   const [selectedAlternative, setSelectedAlternative] = useState(null);
   const navigate = useNavigate();
 
@@ -52,6 +54,11 @@ export default function ClasseDetail() {
       navigate("/login");
     }
   }, [isLogged, navigate, isFetching]);
+
+  useEffect(() => {
+    const response = learn3_backend.acessarAulas(id)
+    setAula(response)
+  }, [])
 
   const handleClickNext = () => {
     if (currentIndex < aula.content.length - 1) {

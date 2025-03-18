@@ -1,3 +1,4 @@
+import { learn3_backend } from '../../../../declarations/learn3_backend';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import CadastroImg from '../../assets/bgCadastro.svg';
 import './style.css';
@@ -8,7 +9,23 @@ function index() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    alert("Criando conta...");
+    const form = e.currentTarget;
+    const email = form.email.value;
+    const password = form.password.value;
+    const confirm_password = form.confirm_password.value;
+    const github = form.github.value;
+
+    if (email === "" || password === "" || confirm_password === "" || github === "") {
+      alert("Preencha todos os campos!");
+      return;
+    }
+    
+    if (password !== confirm_password) {
+      alert("Senhas diferentes!");
+      return;
+    }
+    
+    learn3_backend.adicionarUsuario(email, password, github);
     navigate("/login");
   }
 
@@ -44,19 +61,19 @@ function index() {
             </div>
             <div className="field">
               <label htmlFor="email">Email</label>
-              <input type="email" id="email" />
+              <input type="email" id="email" name="email" />
             </div>
             <div className="field">
               <label htmlFor="password">Senha</label>
-              <input type="password" id="password" />
+              <input type="password" id="password" name="password" />
             </div>
             <div className="field">
               <label htmlFor="confirm_password">Confirmar senha</label>
-              <input type="password" id="confirm_password" />
+              <input type="password" id="confirm_password" name="confirm_password" />
             </div>
             <div className="field">
               <label htmlFor="github">Github</label>
-              <input type="text" id="github" />
+              <input type="text" id="github" name="github" />
             </div>
           </div>
 
