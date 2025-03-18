@@ -26,7 +26,7 @@ https://docs.google.com/document/d/1no7wOgkUuh_Apat3fgYrbDwAXHK91m81nj9fQtNJzdI/
 
 ## 🗺️RoadMap:
 
-&nbsp;&nbsp;&nbsp;&nbsp;O roadmap serve como um planejamento estratégico do projeto, estabelecendo metas, prioridades e uma linha do tempo para implementação.
+&nbsp;&nbsp;&nbsp;&nbsp;O roadmap serve como um planejamento estratégico do projeto, estabelecendo metas, prioridades e uma linha do tempo para implementação. Aqui se encontra o roadmap do projeto Learn3:
 
 <div align="center">
 <sub>Quadro 01 - Roadmap projeto Learn3.</sub>
