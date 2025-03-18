@@ -23,15 +23,15 @@ const buttons = [
   },
   {
     image: AulaImg02,
-    redirectTo: '/aula/2'
+    redirectTo: '/aula/1'
   },
   {
     image: AulaImg03,
-    redirectTo: '/aula/3'
+    redirectTo: '/aula/1'
   },
   {
     image: AulaImg04,
-    redirectTo: '/aula/4'
+    redirectTo: '/aula/1'
   },
   {
     image: ExtAulaImg02,
@@ -62,12 +62,8 @@ export default function Classes() {
   useEffect(() => {
     async function fetchAulas() {
       const response = await learn3_backend.listaAulas();
-      setAulas(response.map( aula => (
-        {
-          id: Number(aula.id),
-          content: aula.content
-        }
-      )));
+      setAulas(response);
+      console.log(response);
     }
     fetchAulas();
   }, [])
@@ -83,7 +79,7 @@ export default function Classes() {
             key={index}
             image={btn.image}
             onClick={btn.onClick}
-            redirectTo={`/aula/${aulas[0]?.id}`}
+            redirectTo={btn.redirectTo}
             extended={btn.type === 'banner'}
             dontShowButton={btn.type === 'banner'}
           />

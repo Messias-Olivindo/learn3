@@ -6,38 +6,38 @@ import Robot from "../../assets/robot.png";
 
 import "./style.css";
 
-// const aula = {
-//   id: 1,
-//   content: [
-//     {
-//       tipo: "aula",
-//       texto: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus est perferendis impedit voluptas ab quis? Dolorum, dolorem obcaecati rem doloribus error explicabo corporis cum sed alias, quas ullam voluptatem officiis?"
-//     },
-//     {
-//       tipo: "video",
-//       texto: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus est perferendis impedit voluptas ab quis? Dolorum, dolorem obcaecati rem doloribus error explicabo corporis cum sed alias, quas ullam voluptatem officiis?",
-//       url: 'https://www.youtube.com/watch?v=jG8ca9aV9qg&ab_channel=ICPHubBrasil'
-//     },
-//     {
-//       tipo: "pergunta",
-//       texto: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus est perferendis impedit voluptas ab quis? Dolorum, dolorem obcaecati rem doloribus error explicabo corporis cum sed alias, quas ullam voluptatem officiis?",
-//       alternativas: [
-//         'Alternativa 1',
-//         'Alternativa 2',
-//         'Alternativa 3',
-//         'Alternativa 4'
-//       ],
-//       respostaCerta: 'Alternativa 2',
-//     }
-//   ]
-// }
+const aula = {
+  id: 1,
+  content: [
+    {
+      tipo: "aula",
+      texto: "A Internet Computer (ICP) é uma blockchain Layer 1 de propósito geral, projetada para o desenvolvimento de DAPPs (Aplicações Descentralizadas) escaláveis, com alto desempenho e diversos diferenciais inovadores. Entre eles, destaca-se pela sua arquitetura com a possibilidade de hospedar DApps 100% on-chain, sem necessidade de servidores tradicionais, permitindo a hospedagem de frontend, backend e armazenamento de dados. Além disso, a ICP permite a integração direta com APIs Web2 e outras blockchains, como o Bitcoin, por meio do projeto Chain Fusion. Com essa abordagem, a ICP pode ser vista como uma solução completa para a Web3, proporcionando maior descentralização, interoperabilidade e eficiência no desenvolvimento de aplicações blockchain."
+    },
+    {
+      tipo: "video",
+      texto: "Assista um vídeo explicando com mais detalhes sobre a ICP",
+      url: 'https://www.youtube.com/watch?v=jG8ca9aV9qg&ab_channel=ICPHubBrasil'
+    },
+    {
+      tipo: "pergunta",
+      texto: "A ICP é utilizada para que?",
+      alternativas: [
+        'Desenvolver aplicativos descentralizados',
+        'Realizar transações financeiras',
+        'Criar tokens',
+        'Criar NFTs'
+      ],
+      respostaCerta: 'Desenvolver aplicativos descentralizados',
+    }
+  ]
+}
 
 export default function ClasseDetail() {
   const { id } = useParams();
   const [isLogged, setIsLogged] = useState(true);
   const [isFetching, setIsFetching] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [aula, setAula] = useState([]);
+  const [aulas, setAula] = useState([]);
   const [selectedAlternative, setSelectedAlternative] = useState(null);
   const navigate = useNavigate();
 
@@ -67,6 +67,7 @@ export default function ClasseDetail() {
     if (currentIndex < aula.content.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
+      alert("Aula concluida!\nVocê ganhou 0.02 ICP!");
       navigate("/aulas");
     }
   }
