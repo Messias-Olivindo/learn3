@@ -56,8 +56,11 @@ export default function ClasseDetail() {
   }, [isLogged, navigate, isFetching]);
 
   useEffect(() => {
-    const response = learn3_backend.acessarAulas(id)
-    setAula(response)
+    async function fetchAula() {
+      const response = await learn3_backend.acessarAulas(id);
+      setAula(response);
+    }
+    fetchAula();
   }, [])
 
   const handleClickNext = () => {

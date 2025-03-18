@@ -10,6 +10,7 @@ import AulaImg04 from "../../assets/aulaTemplate04.png";
 import ExtAulaImg02 from "../../assets/aulaTemplateExt02.png";
 
 import "./style.css";
+import { User } from "../../App";
 
 const buttons = [
   {
@@ -40,7 +41,7 @@ const buttons = [
 
 export default function Verification() {
   const [isFetching, setIsFetching] = useState(true);
-  const [isLogged, setIsLogged] = useState(true);
+  const [isLogged, setIsLogged] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,6 +60,11 @@ export default function Verification() {
       navigate("/login");
     }
   }, [isLogged, navigate, isFetching]);
+
+  useEffect(() => {
+    setIsLogged(User !== null);
+    setIsFetching(false);
+  }, [])
 
   return (
     <main className="verification-container">

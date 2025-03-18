@@ -1,3 +1,4 @@
+import { learn3_backend } from "../../../../declarations/learn3_backend";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CourseButton } from "../../components/CourseButton";
@@ -39,6 +40,7 @@ const buttons = [
 ]
 
 export default function Classes() {
+  const [aulas, setAulas] = useState([]);
   const [isLogged, setIsLogged] = useState(true);
   const [isFetching, setIsFetching] = useState(true);
   const navigate = useNavigate();
@@ -57,6 +59,19 @@ export default function Classes() {
     }
   }, [isLogged, navigate, isFetching]);
 
+  useEffect(() => {
+    async function fetchAulas() {
+      const response = await learn3_backend.listaAulas();
+      setAulas(response.map( aula => (
+        {
+          id: Number(aula.id),
+          content: aula.content
+        }
+      )));
+    }
+    fetchAulas();
+  }, [])
+
   return (
     <main className="courses-container">
       <header>
@@ -68,7 +83,7 @@ export default function Classes() {
             key={index}
             image={btn.image}
             onClick={btn.onClick}
-            redirectTo={btn.redirectTo}
+            redirectTo={`/aula/${aulas[0]?.id}`}
             extended={btn.type === 'banner'}
             dontShowButton={btn.type === 'banner'}
           />

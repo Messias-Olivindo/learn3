@@ -5,6 +5,8 @@ import Classes from './pages/Classes/index';
 import ClassDetail from './pages/ClassDetail/index';
 import Verification from './pages/Verification/index';
 
+export const User = null;
+
 function App() {
   return (
     <Router>

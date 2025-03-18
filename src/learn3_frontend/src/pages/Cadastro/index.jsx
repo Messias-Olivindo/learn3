@@ -19,14 +19,15 @@ function index() {
       alert("Preencha todos os campos!");
       return;
     }
-    
+
     if (password !== confirm_password) {
       alert("Senhas diferentes!");
       return;
     }
-    
-    learn3_backend.adicionarUsuario(email, password, github);
-    navigate("/login");
+
+    learn3_backend.adicionarUsuario(email, password, github).then(() => {
+      navigate("/login");
+    });
   }
 
   return (

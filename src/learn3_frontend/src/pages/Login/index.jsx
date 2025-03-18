@@ -7,18 +7,23 @@ function index() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const form = e.currentTarget;
     const email = form.email.value;
     const password = form.password.value;
     
-    const response = learn3_backend.verificarUsuario(email, password);
-    if(response) {
-      navigate("/aulas");
-    } else {
-      alert("Email ou senha inválidos!");
+    try {
+      const response = await learn3_backend.verificarUsuario(email, password);
+      if (response) {
+        navigate("/aulas");
+      } else {
+        alert("Email ou senha inválidos!");
+      }
+    } catch (error) {
+      console.error("Error verifying user:", error);
+      alert("Ocorreu um erro. Por favor, tente novamente.");
     }
   }
 
