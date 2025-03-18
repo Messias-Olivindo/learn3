@@ -19,16 +19,21 @@ actor {
 
   //Buffer para guardar os usuários
   var usuarios : Buffer.Buffer<Usuario> = Buffer.Buffer<Usuario>(10);
+  var nextId : Nat = 1; // Add this to track the next available ID
 
   //Função para adicionar os usuários
   public func adicionarUsuario(usuEmail : Text, usuSenha : Text, usuGithub : Text) : async () {
     //Novo usuario adicionado
     let usu : Usuario = {
+      id = nextId;
       email = usuEmail;
       senha = usuSenha;
       github = usuGithub;
       qtdIcp = 0;
     };
+    
+    nextId += 1;
+
     //Adicionar usuários
     usuarios.add(usu);
   };
@@ -37,6 +42,7 @@ actor {
   public func verificarUsuario(usuEmail : Text, usuSenha : Text) : async (Bool) {
     //Usuário colocado
     let usu : Usuario = {
+      id = 0;
       email = usuEmail;
       senha = usuSenha;
       github = "";
@@ -59,6 +65,20 @@ actor {
     };
   };
 
+  // Função para localizar o usuário pelo id
+  public func localizaUsuarioId(id : Nat) : async (?Usuario) {
+    let usuariosArray = Buffer.toArray(usuarios);
+
+    for (usu in usuariosArray.vals()) {
+      if (usu.id == id) {
+        return ?usu;
+      };
+    };
+
+    return null;
+  };
+
+  // Função para localizar o usuário pelo email
   public func localizaUsuario(email : Text) : async (?Usuario) {
     let usuariosArray = Buffer.toArray(usuarios);
 
@@ -75,9 +95,14 @@ actor {
   public func aumentarIcp(email : Text, maisIcp : Float) : async (Float) {
     let usuarioOpt = await localizaUsuario(email);
     switch (usuarioOpt) {
-      case (null) { return 0 };
+      case (null) { return -1 };
       case (?usuario) {
-        for (i in 0 usuarios.size() - 1) {
+        if (usuarios.size() == 0) {
+          return -1;
+        };
+        
+        var i = 0;
+        while (i < usuarios.size()) {
           let usu = usuarios.get(i);
           if (usu.email == email) {
             let updatedUsuario : Usuario = {
@@ -88,11 +113,12 @@ actor {
               qtdIcp = usu.qtdIcp + maisIcp;
             };
             
-            ignore usuarios.put(i, updatedUsuario);
+            usuarios.put(i, updatedUsuario);
             return updatedUsuario.qtdIcp;
           };
+          i += 1;
         };
-        return 0;
+        return -1;
       };
     };
   };
@@ -131,7 +157,7 @@ actor {
       id = 2;
       content : Content = {
         tipo = "vídeo";
-        texto = "Assista um vídeo explicando com mais detalhes sobre o ICP";
+        texto = "Assista um vídeo explicando com mais detalhes sobre a ICP";
         alternativas = null;
         respostaCerta = null;
         url = ?"www";
@@ -141,7 +167,7 @@ actor {
       id = 3;
       content : Content = {
         tipo = "pergunta";
-        texto = "";
+        texto = "A ICP é utilizada par";
         alternativas = ?[
           "A",
           "B",
@@ -153,6 +179,11 @@ actor {
       };
     },
   ];
+
+  //Acessar todas as aulas
+  public func listaAulas() : async [Aula] {
+    return aulas;
+  };
 
   //Acessar o assunto relacionado
   public func acessarAulas(idAula : Nat) : async (?Aula) {
