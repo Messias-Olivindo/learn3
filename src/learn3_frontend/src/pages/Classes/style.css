@@ -1,0 +1,22 @@
+.courses-container header {
+  background-color: #FF8400;
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.courses-container header h1 {
+  font-size: 2em;
+  color: black;
+  font-weight: bold;
+}
+
+.courses-container section {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 1em;
+  padding: 1em;
+}

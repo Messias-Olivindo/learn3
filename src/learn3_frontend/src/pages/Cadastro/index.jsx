@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import LoginImg from '../../assets/bgLogin.svg';
-import '../Cadastro/style.css';
+import CadastroImg from '../../assets/bgCadastro.svg';
+import './style.css';
 
 function index() {
   const location = useLocation();
@@ -8,14 +8,14 @@ function index() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    alert("Entrando...");
-    navigate("/aulas");
+    alert("Criando conta...");
+    navigate("/login");
   }
 
   return (
     <main className='login-container'>
       <div className="left">
-        <img src={LoginImg} alt="" />
+        <img src={CadastroImg} alt="" />
       </div>
       <div className="right">
         <form onSubmit={handleSubmit}>
@@ -50,14 +50,22 @@ function index() {
               <label htmlFor="password">Senha</label>
               <input type="password" id="password" />
             </div>
+            <div className="field">
+              <label htmlFor="confirm_password">Confirmar senha</label>
+              <input type="password" id="confirm_password" />
+            </div>
+            <div className="field">
+              <label htmlFor="github">Github</label>
+              <input type="text" id="github" />
+            </div>
           </div>
 
           <div className="bottom">
             <button>
-              Entrar
-            </button>
-            <Link to={"/cadastro"}>
               Criar conta
+            </button>
+            <Link to={"/login"} style={{ color: 'blue' }}>
+              Entrar
             </Link>
           </div>
         </form>

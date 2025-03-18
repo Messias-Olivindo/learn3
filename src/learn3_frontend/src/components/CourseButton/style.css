@@ -1,0 +1,38 @@
+.course-button-container {
+  display: flex;
+  text-decoration: none;
+}
+
+.course-button {
+  overflow: hidden;
+  border-radius: .5em;
+  display: flex;
+  flex-direction: column-reverse;
+  border: 3px solid black;
+  padding: 1em;
+  box-shadow: 3px 3px 1px 0 rgba(0, 0, 0, 0.9);
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  height: 395px;
+  transition: .3s ease-in-out;
+}
+
+.course-button:hover {
+  transform: scale(1.03);
+}
+
+.course-button button {
+  background-color: #fff;
+  border: none;
+  border-radius: .5em;
+  padding: .5em 1em;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .3s ease-in-out;
+  font-size: 1.2em;
+  border: 2px solid black;
+  box-shadow: 3px 3px 1px 0 rgba(0, 0, 0, 0.9);
+  width: 100%;
+}
